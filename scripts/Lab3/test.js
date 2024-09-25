@@ -42,7 +42,7 @@ describe('Тест-кейс: Поиск ноутбуков в заданном �
   });
 
   it('Должен вывести первые 5 найденных товаров', async function () {
-    await laptopPage.logFirstFiveProducts();
+    await laptopPage.getFirstFiveProducts(); // Изменено с logFirstFiveProducts на getFirstFiveProducts
   });
 
   it('Должен установить фильтр цен и проверить товары', async function () {
