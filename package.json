@@ -6,11 +6,15 @@
     "test": "mocha scripts/Lab2/tests/*.js"
   },
   "dependencies": {
+    "chromedriver": "^129.0.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
     "pytest": "^1.0.0",
     "selenium": "^2.20.0",
     "selenium-webdriver": "^4.25.0"
   },
   "devDependencies": {
+    "allure-commandline": "^2.30.0",
     "chai": "^5.1.1",
     "esm": "^3.2.25",
     "mocha": "^10.7.3",

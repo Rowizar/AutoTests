@@ -12,43 +12,44 @@ class LaptopPage {
     }
   
     // Метод для получения и вывода первых 5 товаров
-    async getFirstFiveProducts() {
-      console.log('Выводим первые 5 найденных товаров:');
+    // Метод для получения и вывода первых 5 товаров
+// Метод для получения и вывода первых 5 товаров
+async getFirstFiveProducts() {
+    console.log('Выводим первые 5 найденных товаров:');
   
-      // Ждем появления товаров на странице
-      await this.page.waitForSelector(this.productTitlesLocator, { timeout: 20000 });
+    // Ждем появления товаров на странице
+    await this.page.waitForSelector(this.productTitlesLocator, { timeout: 20000 });
   
-      // Получаем список товаров
-      const products = await this.page.$$(this.productTitlesLocator);
+    // Получаем список товаров
+    const products = await this.page.$$(this.productTitlesLocator);
   
-      console.log(`Найдено товаров: ${products.length}`);
+    console.log(`Найдено товаров: ${products.length}`);
   
-      // Логируем первые 5 товаров
-      for (let i = 0; i < Math.min(products.length, 5); i++) {
+    // Логируем первые 5 товаров
+    for (let i = 0; i < Math.min(products.length, 5); i++) {
         const product = products[i];
         try {
-          // Получаем название товара
-          const titleElement = await product.$(this.productTitlesLocator);
-          if (!titleElement) {
-            console.error(`Название товара не найдено для товара ${i + 1}`);
-            continue;
-          }
-          const titleText = await titleElement.textContent();
-  
-          // Получаем цену товара
-          const priceElementHandles = await product.$x(this.productPricesLocator);
-          if (priceElementHandles.length === 0) {
-            console.error(`Цена товара не найдена для товара ${i + 1}`);
-            continue;
-          }
-          const priceText = await priceElementHandles[0].textContent();
-  
-          console.log(`Товар ${i + 1}: ${titleText.trim()}, Цена: ${priceText.trim()}`);
+            // Получаем текст заголовка продукта напрямую
+            const titleText = await this.page.evaluate(el => el.textContent, product);
+    
+            // Используем контекст страницы для поиска цены через XPath
+            const priceText = await this.page.evaluate((product) => {
+                const priceElement = product.closest('div[data-zone-name="snippet-card"]').querySelector('div[data-zone-name="price"] span');
+                return priceElement ? priceElement.textContent : null;
+            }, product);
+    
+            if (!priceText) {
+                console.error(`Цена товара не найдена для товара ${i + 1}`);
+                continue;
+            }
+    
+            console.log(`Товар ${i + 1}: ${titleText.trim()}, Цена: ${priceText.trim()}`);
         } catch (error) {
-          console.error(`Ошибка при получении данных товара ${i + 1}:, error`);
+            console.error(`Ошибка при получении данных товара ${i + 1}: ${error}`);
         }
-      }
     }
+}
+
   
     // Установка фильтра по цене
     async setPriceFilter(min, max) {

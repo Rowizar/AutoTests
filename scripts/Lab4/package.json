@@ -1,0 +1,21 @@
+{
+  "name": "lab4",
+  "version": "1.0.0",
+  "main": "OpenAIPage.js",
+  "scripts": {
+    "test": "mocha --require esm scripts/Lab4/*.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "mocha": "^10.7.3",
+    "path": "^0.12.7",
+    "selenium-webdriver": "^4.25.0"
+  },
+  "devDependencies": {
+    "chromedriver": "^129.0.0"
+  }
+}
